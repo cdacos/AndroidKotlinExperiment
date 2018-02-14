@@ -9,9 +9,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.cysmic.androidkotlinexperiment.R
 import com.cysmic.androidkotlinexperiment.model.Story
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewAdapter.StoryRecyclerViewHolder>() {
+  private val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+
   // I first saw this clever idea mentioned at https://antonioleiva.com/recyclerview-diffutil-kotlin/
   var items: List<Story> by Delegates.observable(emptyList()) {
     _, oldList, newList ->
@@ -48,7 +52,12 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
   override fun onBindViewHolder(holder: StoryRecyclerViewHolder, position: Int) {
     val story = items[position]
     holder.position.text = (position + 1).toString()
-    holder.name.text = if (story.title !=  null) story.title else story.id
+    holder.title.text = story.title
+    val resources = holder.notes.context.resources
+    val points = resources.getQuantityString(R.plurals.points, story.score, story.score)
+    val date = df.format(Date(story.time*1000))
+    val comments = resources.getQuantityString(R.plurals.comments, story.descendants, story.descendants)
+    holder.notes.text = resources.getString(R.string.story_notes, points, date, comments)
   }
 
   override fun getItemCount(): Int {
@@ -56,7 +65,8 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
   }
 
   class StoryRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val name: TextView = itemView.findViewById(R.id.name)
     val position: TextView = itemView.findViewById(R.id.position)
+    val title: TextView = itemView.findViewById(R.id.title)
+    val notes: TextView = itemView.findViewById(R.id.notes)
   }
 }

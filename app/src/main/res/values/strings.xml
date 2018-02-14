@@ -2,8 +2,17 @@
   <string name="app_name">Android Kotlin Experiment</string>
   <string name="fetching_items">Fetching items…</string>
   <string name="online_warning">You need to be online</string>
+  <string name="story_notes" formatted="true">%s | %s | %s</string>
   <plurals name="found_items">
-    <item quantity="one">%d item found</item>
-    <item quantity="other">%d items found</item>
+    <item quantity="one">%d item retrieved</item>
+    <item quantity="other">%d items retrieved</item>
+  </plurals>
+  <plurals name="comments">
+    <item quantity="one">%d comment</item>
+    <item quantity="other">%d comments</item>
+  </plurals>
+  <plurals name="points">
+    <item quantity="one">%d point</item>
+    <item quantity="other">%d points</item>
   </plurals>
 </resources>

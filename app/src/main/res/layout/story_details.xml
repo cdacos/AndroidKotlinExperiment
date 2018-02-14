@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_marginTop="10dp">
 
   <TextView
       android:id="@+id/position"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="5dp"
-      android:layout_weight="0"/>
+      android:layout_width="25dp"
+      android:layout_height="25dp"
+      android:textSize="12sp"
+      android:gravity="center"
+      android:textStyle="italic"
+      android:text="1"
+      tools:ignore="HardcodedText" />
 
   <TextView
-      android:id="@+id/name"
-      android:layout_width="0dp"
+      android:id="@+id/title"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_weight="1"
-      />
+      android:layout_toEndOf="@id/position"
+      android:textSize="16sp"
+      android:text="Lorem ipsum"
+      tools:ignore="HardcodedText" />
 
-</LinearLayout>
+  <TextView
+      android:id="@+id/notes"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toEndOf="@id/position"
+      android:layout_below="@id/title"
+      android:textSize="12sp"
+      android:text="300 points | 2018-02-14 14:14 | 51 comments"
+      tools:ignore="HardcodedText" />
+
+</RelativeLayout>

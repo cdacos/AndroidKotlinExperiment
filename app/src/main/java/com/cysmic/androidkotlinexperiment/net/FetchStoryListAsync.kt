@@ -5,14 +5,14 @@ import com.cysmic.androidkotlinexperiment.model.Story
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.net.URL
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class FetchStoryListAsync @Inject constructor() : AsyncTask<Void, Void, Array<Int>>() {
-  private var callback: FetchResponse? = null
+  private var callback: StoryListResponse? = null
   private var message: String? = null
 
-  fun executeWithCallback(callback: FetchResponse) {
+  fun executeWithCallback(callback: StoryListResponse) {
     this.callback = callback
     if (status != AsyncTask.Status.RUNNING) execute()
   }
@@ -32,6 +32,6 @@ class FetchStoryListAsync @Inject constructor() : AsyncTask<Void, Void, Array<In
 
   override fun onPostExecute(items: Array<Int>) {
     val list = items.map { n -> Story(n.toString()) }
-    callback!!.onFetchResponse(list, message)
+    callback!!.onStoryListResponse(list, message)
   }
 }

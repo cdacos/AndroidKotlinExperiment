@@ -19,7 +19,7 @@ class ConnectivityViewModel(application: Application) : AndroidViewModel(applica
   private val isConnected: Boolean
     get() {
       val cm = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-      val netInfo = cm?.activeNetworkInfo
+      val netInfo = cm.activeNetworkInfo
       return netInfo != null && netInfo.isAvailable && netInfo.isConnected
     }
 

@@ -3,4 +3,8 @@
   <string name="fetching_items">Fetching items…</string>
   <string name="online_warning">You need to be online</string>
   <string name="online_message">You are online</string>
+  <plurals name="found_items">
+    <item quantity="one">%d item found</item>
+    <item quantity="other">%d items found</item>
+  </plurals>
 </resources>

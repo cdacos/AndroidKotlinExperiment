@@ -1,6 +1,6 @@
 package com.cysmic.androidkotlinexperiment.di
 
-import com.cysmic.androidkotlinexperiment.StoryListActivity
+import com.cysmic.androidkotlinexperiment.ui.StoryListActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

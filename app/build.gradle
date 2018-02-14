@@ -45,7 +45,7 @@ dependencies {
   kapt "com.google.dagger:dagger-android-processor:$dagger_version"
   kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
-  // GSON for loading the feed
+  // Gson for loading the feed
   compile 'com.google.code.gson:gson:2.8.2'
 
   // Test dependencies

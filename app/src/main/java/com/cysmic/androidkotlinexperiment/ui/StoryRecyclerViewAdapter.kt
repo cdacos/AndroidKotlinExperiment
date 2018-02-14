@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.cysmic.androidkotlinexperiment.R
+import com.cysmic.androidkotlinexperiment.model.Story
 import com.cysmic.androidkotlinexperiment.model.StoryListViewModel
 
 class StoryRecyclerViewAdapter(private val model: StoryListViewModel) : RecyclerView.Adapter<StoryRecyclerViewHolder>() {
@@ -16,10 +17,10 @@ class StoryRecyclerViewAdapter(private val model: StoryListViewModel) : Recycler
   }
 
   override fun onBindViewHolder(holder: StoryRecyclerViewHolder, position: Int) {
-    holder.bindData(model.getStories()[position])
+    holder.bindData(model.getData().value?.get(position) ?: Story("")) //TODO Tidy!
   }
 
   override fun getItemCount(): Int {
-    return model.getStories().size
+    return model.getData().value?.size ?: 0
   }
 }

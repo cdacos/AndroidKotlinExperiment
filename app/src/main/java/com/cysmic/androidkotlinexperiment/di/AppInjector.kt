@@ -11,8 +11,6 @@ import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 
-interface Injectable
-
 object AppInjector {
   fun init(app: App) {
     DaggerAppComponent.builder().application(app).build().inject(app)

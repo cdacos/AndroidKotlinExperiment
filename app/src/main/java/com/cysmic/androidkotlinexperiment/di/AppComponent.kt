@@ -7,12 +7,11 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
-/**
- * Created by carlos on 14/02/18.
- */
-
 @Singleton
-@Component(modules = arrayOf(AndroidInjectionModule::class, AppModule::class, TargetListActivityModule::class))
+@Component(modules = [
+  AndroidInjectionModule::class,
+  AppModule::class,
+  StoryListActivityModule::class])
 interface AppComponent {
   @Component.Builder
   interface Builder {

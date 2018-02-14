@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">AndroidKotlinExperiment</string>
+  <string name="fetching_items">Fetching items…</string>
 </resources>

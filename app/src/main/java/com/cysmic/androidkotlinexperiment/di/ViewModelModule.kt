@@ -2,21 +2,18 @@ package com.cysmic.androidkotlinexperiment.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.cysmic.androidkotlinexperiment.model.TargetListViewModel
+import com.cysmic.androidkotlinexperiment.model.StoryListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
-/**
- * Created by carlos on 14/02/18.
- */
 @Module
 internal abstract class ViewModelModule {
   @Binds
   @IntoMap
-  @ViewModelKey(TargetListViewModel::class)
-  internal abstract fun bindTargetListViewModel(targetListViewModel: TargetListViewModel): ViewModel
+  @ViewModelKey(StoryListViewModel::class)
+  abstract fun bindStoryListViewModel(storyListViewModel: StoryListViewModel): ViewModel
 
   @Binds
-  internal abstract fun bindViewModelFactory(factory: GithubViewModelFactory): ViewModelProvider.Factory
+  abstract fun bindViewModelFactory(factory: GithubViewModelFactory): ViewModelProvider.Factory
 }

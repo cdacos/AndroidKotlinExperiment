@@ -7,13 +7,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-/**
- * Created by carlos on 14/02/18.
- */
-
 class App : Application(), HasActivityInjector {
-  @Inject
-  internal var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>? = null
+  @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
   override fun onCreate() {
     super.onCreate()

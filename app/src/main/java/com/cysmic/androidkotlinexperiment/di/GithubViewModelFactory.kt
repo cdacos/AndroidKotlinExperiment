@@ -10,8 +10,7 @@ import javax.inject.Singleton
 // https://github.com/googlesamples/android-architecture-components/tree/master/GithubBrowserSample
 
 @Singleton
-class GithubViewModelFactory @Inject
-internal constructor(private val creators: Map<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
+class GithubViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
     var creator: Provider<out ViewModel>? = creators[modelClass]
     if (creator == null) {
@@ -26,6 +25,7 @@ internal constructor(private val creators: Map<Class<out ViewModel>, Provider<Vi
       throw IllegalArgumentException("unknown model class " + modelClass)
     }
     try {
+      @Suppress("UNCHECKED_CAST")
       return creator.get() as T
     }
     catch (e: Exception) {

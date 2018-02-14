@@ -47,7 +47,8 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
 
   override fun onBindViewHolder(holder: StoryRecyclerViewHolder, position: Int) {
     val story = items[position]
-    holder.name.text = story.id
+    holder.position.text = (position + 1).toString()
+    holder.name.text = if (story.title !=  null) story.title else story.id
   }
 
   override fun getItemCount(): Int {
@@ -56,5 +57,6 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
 
   class StoryRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val name: TextView = itemView.findViewById(R.id.name)
+    val position: TextView = itemView.findViewById(R.id.position)
   }
 }

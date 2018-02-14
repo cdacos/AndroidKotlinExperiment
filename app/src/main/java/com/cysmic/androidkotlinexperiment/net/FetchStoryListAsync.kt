@@ -1,11 +1,10 @@
 package com.cysmic.androidkotlinexperiment.net
 
 import android.os.AsyncTask
-import com.cysmic.androidkotlinexperiment.model.Story
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.net.URL
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 class FetchStoryListAsync @Inject constructor() : AsyncTask<Void, Void, Array<Int>>() {
@@ -24,14 +23,13 @@ class FetchStoryListAsync @Inject constructor() : AsyncTask<Void, Void, Array<In
       return Gson().fromJson(reader, Array<Int>::class.java)
     }
     catch (e: Exception) {
-      message = String.format(Locale.getDefault(), "Error loading feed: %s. Check your connectivity.", e.localizedMessage)
+      message = String.format(Locale.US, "Error loading feed: %s. Check your connectivity.", e.localizedMessage)
     }
 
     return arrayOf()
   }
 
   override fun onPostExecute(items: Array<Int>) {
-    val list = items.map { n -> Story(n.toString()) }
-    callback!!.onStoryListResponse(list, message)
+    callback!!.onStoryListResponse(items.take(25), message)
   }
 }

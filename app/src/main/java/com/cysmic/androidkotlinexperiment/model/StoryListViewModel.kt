@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class StoryListViewModel @Inject constructor(private val repository: StoryRepository) : ViewModel() {
   fun loadData(): Boolean {
-    if (getData().value?.isEmpty() ?: true) {
+    if (getData().value?.isEmpty() != false) {
       repository.loadData()
       return true
     }

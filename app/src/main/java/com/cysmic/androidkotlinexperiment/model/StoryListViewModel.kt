@@ -16,4 +16,8 @@ class StoryListViewModel @Inject constructor(private val repository: StoryReposi
   fun getData(): LiveData<List<Story>> {
     return repository.getData()
   }
+
+  fun getMessage(): LiveData<String> {
+    return repository.getMessage()
+  }
 }

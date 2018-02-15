@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
-class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewAdapter.StoryRecyclerViewHolder>() {
+class StoryListRecyclerViewAdapter(private val onStoryClickCallback: StoryClickCallback) : RecyclerView.Adapter<StoryListRecyclerViewAdapter.StoryRecyclerViewHolder>() {
   private val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
   // I first saw this clever idea mentioned at https://antonioleiva.com/recyclerview-diffutil-kotlin/
@@ -51,6 +51,7 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
 
   override fun onBindViewHolder(holder: StoryRecyclerViewHolder, position: Int) {
     val story = items[position]
+    holder.view.setOnClickListener { onStoryClickCallback.onStoryClick(story) }
     holder.position.text = (position + 1).toString()
     holder.title.text = story.title
     val resources = holder.notes.context.resources
@@ -65,6 +66,7 @@ class StoryListRecyclerViewAdapter : RecyclerView.Adapter<StoryListRecyclerViewA
   }
 
   class StoryRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val view = itemView
     val position: TextView = itemView.findViewById(R.id.position)
     val title: TextView = itemView.findViewById(R.id.title)
     val notes: TextView = itemView.findViewById(R.id.notes)

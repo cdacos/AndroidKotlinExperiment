@@ -2,7 +2,6 @@ package com.cysmic.androidkotlinexperiment.model
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.cysmic.androidkotlinexperiment.net.StoryRequest
 import com.cysmic.androidkotlinexperiment.net.StoryResponse
 import javax.inject.Inject
@@ -11,6 +10,7 @@ class StoryRepository @Inject constructor() : StoryResponse {
   @Inject lateinit var storyRequest: StoryRequest
 
   private val data: MutableLiveData<List<Story>> = MutableLiveData()
+  private val message: MutableLiveData<String> = MutableLiveData()
   private val stories = ArrayList<Story>()
 
   fun loadData() {
@@ -21,9 +21,13 @@ class StoryRepository @Inject constructor() : StoryResponse {
     return data
   }
 
+  fun getMessage(): LiveData<String> {
+    return message
+  }
+
   override fun onStoryListResponse(list: List<Int>?, message: String?) {
-    list?.map { storyRequest.fetchStory(it.toString(), this) }
-    Log.d("StoryRepository", message ?: "null")
+    list?.take(25)?.map { storyRequest.fetchStory(it.toString(), this) }
+    this.message.value = message
   }
 
   override fun onStoryResponse(story: Story?, message: String?) {
@@ -31,6 +35,6 @@ class StoryRepository @Inject constructor() : StoryResponse {
       stories.add(story)
       data.value = ArrayList(stories)
     }
-    Log.d("StoryRepository", message ?: "null")
+    this.message.value = message
   }
 }

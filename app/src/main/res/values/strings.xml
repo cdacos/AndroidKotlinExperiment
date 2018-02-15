@@ -1,6 +1,7 @@
 <resources>
   <string name="app_name">Android Kotlin Experiment</string>
   <string name="fetching_items">Fetching items…</string>
+  <string name="online">You are online</string>
   <string name="online_warning">You need to be online</string>
   <string name="story_notes" formatted="true">%s | %s | %s</string>
   <plurals name="found_items">

@@ -3,17 +3,19 @@ package com.cysmic.androidkotlinexperiment.ui
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.cysmic.androidkotlinexperiment.R
 import com.cysmic.androidkotlinexperiment.di.Injectable
 import com.cysmic.androidkotlinexperiment.model.ConnectivityViewModel
+import com.cysmic.androidkotlinexperiment.model.Story
 import com.cysmic.androidkotlinexperiment.model.StoryListViewModel
 import kotlinx.android.synthetic.main.activity_story_list.*
 import javax.inject.Inject
 
-class StoryListActivity : AppCompatActivity(), Injectable {
+class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
   @Inject lateinit var viewModelProviderFactory: ViewModelProvider.Factory
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +24,7 @@ class StoryListActivity : AppCompatActivity(), Injectable {
 
     val model = ViewModelProviders.of(this, viewModelProviderFactory).get(StoryListViewModel::class.java)
 
-    val adapter = StoryListRecyclerViewAdapter()
+    val adapter = StoryListRecyclerViewAdapter(this)
     item_recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     item_recycler.adapter = adapter
 
@@ -34,13 +36,24 @@ class StoryListActivity : AppCompatActivity(), Injectable {
       }
     })
 
+    model.getMessage().observe(this, Observer {
+      if (it?.isEmpty() != true) story_list_message.text = it
+    })
+
     val connectivity = ViewModelProviders.of(this).get(ConnectivityViewModel::class.java)
     connectivity.getData().observe(this, Observer {
       when {
         it != true -> story_list_message.setText(R.string.online_warning)
         model.loadData() -> story_list_message.setText(R.string.fetching_items)
-        else -> story_list_message.setText(R.string.fetching_items)
+        else -> story_list_message.setText(R.string.online)
       }
     })
+  }
+
+  override fun onStoryClick(story: Story) {
+    val intent = Intent(this, StoryActivity::class.java)
+    intent.putExtra("STORY_URL", story.url)
+    intent.putExtra("STORY_TITLE", story.title)
+    startActivity(intent)
   }
 }

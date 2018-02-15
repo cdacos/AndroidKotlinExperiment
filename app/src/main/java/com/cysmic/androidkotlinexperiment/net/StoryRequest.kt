@@ -28,7 +28,6 @@ class StoryRequest @Inject constructor() {
   }
 
   fun fetchList(callback: StoryResponse?) {
-    Log.d("FetchStoryListAsync", "")
     poolExecutor.execute {
       var message = ""
       var list: List<Int>? = null
@@ -42,8 +41,6 @@ class StoryRequest @Inject constructor() {
         message = String.format(Locale.US, "Error loading feed: %s. Check your connectivity.", e.localizedMessage)
       }
 
-      Log.d("FetchStoryListAsyncX", list.toString())
-
       if (callback != null) {
         Handler(Looper.getMainLooper()).post {
           callback.onStoryListResponse(list, message)
@@ -53,7 +50,6 @@ class StoryRequest @Inject constructor() {
   }
 
   fun fetchStory(id: String, callback: StoryResponse?) {
-    Log.d("StoryRequest", id)
     poolExecutor.execute {
       var message = ""
       var story: Story? = null
@@ -62,9 +58,10 @@ class StoryRequest @Inject constructor() {
         val url = URL(String.format(Locale.US, "https://hacker-news.firebaseio.com/v0/item/%s.json", id))
         val reader = InputStreamReader(url.openStream())
         story = Gson().fromJson(reader, Story::class.java)
+        if (story == null) throw RuntimeException("Failed to download story")
       }
       catch (e: Exception) {
-        message = String.format(Locale.US, "Error loading story: %s. Check your connectivity.", e.localizedMessage)
+        message = String.format(Locale.US, "Error loading story [%s]: %s. Check your connectivity.", id, e.localizedMessage)
       }
 
       Log.d("FetchStoryAsyncX", story.toString())

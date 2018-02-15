@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FetchStoryAsync @Inject constructor() {
+class StoryRequest @Inject constructor() {
   private val poolExecutor: ThreadPoolExecutor
 
   init {
@@ -27,12 +27,36 @@ class FetchStoryAsync @Inject constructor() {
         requestQueue)
   }
 
-  fun executeWithCallback(id: String, callback: StoryResponse?) {
-    Log.d("FetchStoryAsync", id)
+  fun fetchList(callback: StoryResponse?) {
+    Log.d("FetchStoryListAsync", "")
+    poolExecutor.execute {
+      var message = ""
+      var list: List<Int>? = null
+
+      try {
+        val url = URL("https://hacker-news.firebaseio.com/v0/topstories.json")
+        val reader = InputStreamReader(url.openStream())
+        list = Gson().fromJson(reader, Array<Int>::class.java).toList()
+      }
+      catch (e: Exception) {
+        message = String.format(Locale.US, "Error loading feed: %s. Check your connectivity.", e.localizedMessage)
+      }
+
+      Log.d("FetchStoryListAsyncX", list.toString())
+
+      if (callback != null) {
+        Handler(Looper.getMainLooper()).post {
+          callback.onStoryListResponse(list, message)
+        }
+      }
+    }
+  }
+
+  fun fetchStory(id: String, callback: StoryResponse?) {
+    Log.d("StoryRequest", id)
     poolExecutor.execute {
       var message = ""
       var story: Story? = null
-
 
       try {
         val url = URL(String.format(Locale.US, "https://hacker-news.firebaseio.com/v0/item/%s.json", id))

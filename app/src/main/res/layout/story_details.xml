@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp">
@@ -33,5 +34,15 @@
       android:textSize="12sp"
       android:text="300 points | 2018-02-14 14:14 | 51 comments"
       tools:ignore="HardcodedText" />
+
+  <ImageButton
+      android:id="@+id/comments_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentEnd="true"
+      android:background="?selectableItemBackgroundBorderless"
+      android:contentDescription="@string/view_comments"
+      app:srcCompat="@drawable/ic_comment" />
 
 </RelativeLayout>

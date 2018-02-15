@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.cysmic.androidkotlinexperiment.R
 import kotlinx.android.synthetic.main.activity_story.*
+import java.util.*
 
 class StoryActivity : AppCompatActivity() {
 
@@ -18,7 +19,9 @@ class StoryActivity : AppCompatActivity() {
       actionBar.setDisplayHomeAsUpEnabled(true)
     }
 
-    webview.loadUrl(intent.getStringExtra("STORY_URL"))
+    val url = intent.getStringExtra("STORY_URL")
+        ?: String.format(Locale.US, "https://news.ycombinator.com/item?id=%s", intent.getStringExtra("STORY_ID"))
+    webview.loadUrl(url)
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {

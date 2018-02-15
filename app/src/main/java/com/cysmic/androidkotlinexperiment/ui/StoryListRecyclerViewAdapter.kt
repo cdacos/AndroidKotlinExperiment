@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import com.cysmic.androidkotlinexperiment.R
 import com.cysmic.androidkotlinexperiment.model.Story
@@ -51,14 +52,18 @@ class StoryListRecyclerViewAdapter(private val onStoryClickCallback: StoryClickC
 
   override fun onBindViewHolder(holder: StoryRecyclerViewHolder, position: Int) {
     val story = items[position]
-    holder.view.setOnClickListener { onStoryClickCallback.onStoryClick(story) }
+
     holder.position.text = (position + 1).toString()
     holder.title.text = story.title
+    holder.title.setOnClickListener { onStoryClickCallback.onStoryClick(story) }
+
     val resources = holder.notes.context.resources
     val points = resources.getQuantityString(R.plurals.points, story.score, story.score)
     val date = df.format(Date(story.time*1000))
     val comments = resources.getQuantityString(R.plurals.comments, story.descendants, story.descendants)
     holder.notes.text = resources.getString(R.string.story_notes, points, date, comments)
+
+    holder.comments.setOnClickListener { onStoryClickCallback.onStoryCommentsClick(story) }
   }
 
   override fun getItemCount(): Int {
@@ -66,9 +71,9 @@ class StoryListRecyclerViewAdapter(private val onStoryClickCallback: StoryClickC
   }
 
   class StoryRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val view = itemView
     val position: TextView = itemView.findViewById(R.id.position)
     val title: TextView = itemView.findViewById(R.id.title)
     val notes: TextView = itemView.findViewById(R.id.notes)
+    val comments: ImageButton = itemView.findViewById(R.id.comments_button)
   }
 }

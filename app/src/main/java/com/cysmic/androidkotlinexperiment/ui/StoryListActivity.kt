@@ -56,4 +56,11 @@ class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
     intent.putExtra("STORY_TITLE", story.title)
     startActivity(intent)
   }
+
+  override fun onStoryCommentsClick(story: Story) {
+    val intent = Intent(this, StoryActivity::class.java)
+    intent.putExtra("STORY_ID", story.id)
+    intent.putExtra("STORY_TITLE", story.title)
+    startActivity(intent)
+  }
 }

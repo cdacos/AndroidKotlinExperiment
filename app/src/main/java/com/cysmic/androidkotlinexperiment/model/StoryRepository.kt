@@ -14,6 +14,7 @@ class StoryRepository @Inject constructor() : StoryResponse {
   private val stories = ArrayList<Story>()
 
   fun loadData() {
+    stories.clear()
     storyRequest.fetchList(this)
   }
 

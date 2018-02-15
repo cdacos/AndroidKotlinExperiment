@@ -33,6 +33,7 @@ class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
       if (it != null) {
         adapter.items = it
         story_list_message.text = resources.getQuantityString(R.plurals.found_items, it.size, it.size)
+        swipe_container.isRefreshing = false
       }
     })
 
@@ -48,6 +49,8 @@ class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
         else -> story_list_message.setText(R.string.online)
       }
     })
+
+    swipe_container.setOnRefreshListener { model.reloadData() }
   }
 
   override fun onStoryClick(story: Story) {

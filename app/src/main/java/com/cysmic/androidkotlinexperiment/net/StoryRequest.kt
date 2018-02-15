@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import com.cysmic.androidkotlinexperiment.model.Story
 import com.google.gson.Gson
+import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
@@ -33,8 +34,8 @@ class StoryRequest @Inject constructor() {
       var list: List<Int>? = null
 
       try {
-        val url = URL("https://hacker-news.firebaseio.com/v0/topstories.json")
-        val reader = InputStreamReader(url.openStream())
+        val url = "https://hacker-news.firebaseio.com/v0/topstories.json"
+        val reader = InputStreamReader(getURLStream(url))
         list = Gson().fromJson(reader, Array<Int>::class.java).toList()
       }
       catch (e: Exception) {
@@ -55,8 +56,8 @@ class StoryRequest @Inject constructor() {
       var story: Story? = null
 
       try {
-        val url = URL(String.format(Locale.US, "https://hacker-news.firebaseio.com/v0/item/%s.json", id))
-        val reader = InputStreamReader(url.openStream())
+        val url = String.format(Locale.US, "https://hacker-news.firebaseio.com/v0/item/%s.json", id)
+        val reader = InputStreamReader(getURLStream(url))
         story = Gson().fromJson(reader, Story::class.java)
         if (story == null) throw RuntimeException("Failed to download story")
       }
@@ -64,7 +65,7 @@ class StoryRequest @Inject constructor() {
         message = String.format(Locale.US, "Error loading story [%s]: %s. Check your connectivity.", id, e.localizedMessage)
       }
 
-      Log.d("FetchStoryAsyncX", story.toString())
+      Log.d("FetchStory", story.toString())
 
       if (callback != null) {
         Handler(Looper.getMainLooper()).post {
@@ -72,5 +73,13 @@ class StoryRequest @Inject constructor() {
         }
       }
     }
+  }
+
+  private fun getURLStream(url: String) : InputStream {
+    val url = URL(url)
+    val conn = url.openConnection()
+    conn.connectTimeout = 5000
+    conn.readTimeout = 5000
+    return conn.getInputStream()
   }
 }

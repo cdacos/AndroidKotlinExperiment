@@ -10,13 +10,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.cysmic.androidkotlinexperiment.R
 import com.cysmic.androidkotlinexperiment.model.Story
-import java.text.SimpleDateFormat
+import com.cysmic.androidkotlinexperiment.ourFormat
 import java.util.*
 import kotlin.properties.Delegates
 
 class StoryListRecyclerViewAdapter(private val onStoryClickCallback: StoryClickCallback) : RecyclerView.Adapter<StoryListRecyclerViewAdapter.StoryRecyclerViewHolder>() {
-  private val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-
   // I first saw this clever idea mentioned at https://antonioleiva.com/recyclerview-diffutil-kotlin/
   var items: List<Story> by Delegates.observable(emptyList()) {
     _, oldList, newList ->
@@ -59,7 +57,7 @@ class StoryListRecyclerViewAdapter(private val onStoryClickCallback: StoryClickC
 
     val resources = holder.notes.context.resources
     val points = resources.getQuantityString(R.plurals.points, story.score, story.score)
-    val date = df.format(Date(story.time*1000))
+    val date = Date(story.time*1000).ourFormat()
     val comments = resources.getQuantityString(R.plurals.comments, story.descendants, story.descendants)
     holder.notes.text = resources.getString(R.string.story_notes, points, date, comments)
 

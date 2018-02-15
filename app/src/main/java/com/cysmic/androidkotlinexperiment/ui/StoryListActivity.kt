@@ -12,7 +12,9 @@ import com.cysmic.androidkotlinexperiment.di.Injectable
 import com.cysmic.androidkotlinexperiment.model.ConnectivityViewModel
 import com.cysmic.androidkotlinexperiment.model.Story
 import com.cysmic.androidkotlinexperiment.model.StoryListViewModel
+import com.cysmic.androidkotlinexperiment.ourFormat
 import kotlinx.android.synthetic.main.activity_story_list.*
+import java.util.*
 import javax.inject.Inject
 
 class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
@@ -32,25 +34,31 @@ class StoryListActivity : AppCompatActivity(), Injectable, StoryClickCallback {
     model.getData().observe(this, Observer {
       if (it != null) {
         adapter.items = it
-        story_list_message.text = resources.getQuantityString(R.plurals.found_items, it.size, it.size)
-        swipe_container.isRefreshing = false
+        setMessage(resources.getQuantityString(R.plurals.found_items, it.size, it.size))
       }
     })
 
     model.getMessage().observe(this, Observer {
-      if (it?.isEmpty() != true) story_list_message.text = it
+      setMessage(it)
     })
 
     val connectivity = ViewModelProviders.of(this).get(ConnectivityViewModel::class.java)
     connectivity.getData().observe(this, Observer {
       when {
-        it != true -> story_list_message.setText(R.string.online_warning)
-        model.loadData() -> story_list_message.setText(R.string.fetching_items)
-        else -> story_list_message.setText(R.string.online)
+        it != true -> setMessage(resources.getString(R.string.online_warning))
+        model.loadData() -> setMessage(resources.getString(R.string.fetching_items))
+        else -> setMessage(resources.getString(R.string.online))
       }
     })
 
     swipe_container.setOnRefreshListener { model.reloadData() }
+  }
+
+  private fun setMessage(message: String?) {
+    swipe_container.isRefreshing = false
+    if (message?.isEmpty() != true) {
+      story_list_message.text = resources.getString(R.string.message_format, Date().ourFormat(), message)
+    }
   }
 
   override fun onStoryClick(story: Story) {

@@ -5,6 +5,7 @@
   <string name="online_warning">You need to be online</string>
   <string name="story_notes" formatted="true">%s | %s | %s</string>
   <string name="view_comments">View comments</string>
+  <string name="message_format" formatted="true">%s: %s</string>
   <plurals name="found_items">
     <item quantity="one">%d item retrieved</item>
     <item quantity="other">%d items retrieved</item>
